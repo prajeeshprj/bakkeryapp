@@ -1,0 +1,35 @@
+.app {
+    text-align: center;
+  }
+  
+  .header {
+    background-color: #f8bbd0;
+    padding: 20px;
+    color: white;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .product-item {
+    background-color: #fce4ec;
+    border: 1px solid #e91e63;
+    margin: 10px;
+    padding: 20px;
+    width: 200px;
+  }
+  
+  .cart, .sales-report {
+    margin-top: 20px;
+  }
+  
+  .cart-item {
+    background-color: #f3e5f5;
+    border: 1px solid #8e24aa;
+    margin: 10px;
+    padding: 10px;
+  }
+  
