@@ -11,8 +11,13 @@ const App = () => {
   const [sales, setSales] = useState([]);
 
   const addToCart = (product) => {
+    if (product.quantity <= 0) {
+      alert('This item is out of stock!');
+      return;
+    }
+  
     const existingItem = cart.find(item => item.id === product.id);
-
+  
     if (existingItem) {
       setCart(cart.map(item =>
         item.id === product.id
@@ -22,15 +27,25 @@ const App = () => {
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
-
+  
     setProducts(products.map(item =>
       item.id === product.id
         ? { ...item, quantity: item.quantity - 1 }
         : item
     ));
   };
-
+  
   const updateQuantity = (product, quantity) => {
+    if (quantity < 0) return;
+  
+    const existingProduct = products.find(item => item.id === product.id);
+    const stockAvailable = existingProduct ? existingProduct.quantity + product.quantity - quantity : 0;
+  
+    if (stockAvailable < 0) {
+      alert('Not enough stock available!');
+      return;
+    }
+  
     if (quantity === 0) {
       setCart(cart.filter(item => item.id !== product.id));
     } else {
@@ -40,19 +55,20 @@ const App = () => {
           : item
       ));
     }
-
+  
     setProducts(products.map(item =>
       item.id === product.id
-        ? { ...item, quantity: item.quantity + product.quantity - quantity }
+        ? { ...item, quantity: stockAvailable }
         : item
     ));
   };
+  
 
   const completeSale = () => {
     const sale = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-    const discount = 0; // Add discount logic if needed
-    const profit = sale - discount; // Add cost logic if needed
-    const loss = 0; // Add loss logic if needed
+    const discount = 0; 
+    const profit = sale - discount; 
+    const loss = 0; 
 
     setSales([...sales, { sale, profit, loss, discount }]);
     setCart([]);
